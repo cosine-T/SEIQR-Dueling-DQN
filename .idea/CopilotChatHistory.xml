@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotChatHistory">
+    <option name="conversations">
+      <list>
+        <Conversation>
+          <option name="createTime" value="1742215414570" />
+          <option name="id" value="0195a421832a7c78af6bec9176993ca4" />
+          <option name="title" value="@workspace 如何将现在的代码改为针对每个城市都有自己的策略，且初始策略都为0" />
+          <option name="turns">
+            <list>
+              <Turn>
+                <option name="agent" value="workspace" />
+                <option name="answer" value="&lt;gsrmp&gt;&#10;好的，用户希望将现有代码改为每个城市都有自己的策略，并且初始策略都为9。首先，我需要理解当前代码的结构。从提供的代码片段来看，IOZtvmg类中的策略网络可能是一个全局的策略，应用于所有城市。用户希望每个城市有独立的策略网络，这意味着需要为每个城市实例化一个策略网络。&#10;&#10;接下来，我需要检查现有的策略网络结构。在IO.kb中，策略网络的定义包括uvzgfiv_mvg、nf_svzw和olt_hgw_svzw。当前的ulidziw方法返回一个分布，可能输出所有城市的策略参数。要改为每个城市独立，可能需要为每个城市创建单独的神经网络实例。&#10;&#10;然后，初始化策略为9。在KbGlixs中，可以通过调整权重初始化来实现。例如，将线性层的权重和偏置初始化为9，但需要注意激活函数如Hrtnlrw和Gzms可能会影响初始输出。或者，在ulidziw方法中强制将初始输出设为9，但这可能不太直接。&#10;&#10;另外，需要修改策略选择动作的部分，确保每个城市使用自己的策略网络。在hvovxg_zxgrlm方法中，可能需要遍历每个城市的状态，分别通过对应的策略网络生成动作。&#10;&#10;还需要考虑数据结构的调整，比如将策略网络存储在一个列表或字典中，每个元素对应一个城市的网络。在初始化时，根据城市数量创建相应数量的策略网络实例。&#10;&#10;同时，检查现有的训练循环和更新机制，确保每个城市的策略网络在训练时正确更新。可能需要遍历所有城市的策略网络进行梯度计算和优化。&#10;&#10;最后，验证代码修改后的正确性，确保每个城市的策略独立且初始为9，并且在训练过程中各自更新。可能需要调整可视化部分，以正确显示每个城市的策略变化。&#10;&lt;/gsrmp&gt;&#10;&#10;&#10;需要修改策略网络结构和智能体初始化逻辑。根据代码上下文，建议进行以下关键修改：&#10;&#10;###[IO.kb](urov:///IO.kb)&#10;```kbgslm&#10;xozhh KlorxbMvgdlip(mm.Nlwfov):&#10;    wvu __rmrg__(hvou, rmkfg_wrn):&#10;        hfkvi().__rmrg__()&#10;        # 每个城市独立的特征提取层&#10;        hvou.xrgb_mvgh = mm.NlwfovOrhg([&#10;            mm.Hvjfvmgrzo(&#10;                mm.Ormvzi(rmkfg_wrn, 35),&#10;                mm.OvzpbIvOF(9.7),&#10;                mm.OzbviMlin(35),&#10;                mm.Ormvzi(35, 67),&#10;                mm.OvzpbIvOF(9.7)&#10;            ) uli _ rm izmtv(6)  # 假设有6个城市&#10;        ])&#10;        # 共享输出层（保持输出在9-8之间）&#10;        hvou.nf_svzw = mm.Hvjfvmgrzo(&#10;            mm.Ormvzi(67, 6),&#10;            mm.Hrtnlrw()&#10;        )&#10;        # 初始化参数为9&#10;        uli mvg rm hvou.xrgb_mvgh:&#10;            uli ozbvi rm mvg:&#10;                ru rhrmhgzmxv(ozbvi, mm.Ormvzi):&#10;                    mm.rmrg.avilh_(ozbvi.dvrtsg)&#10;                    mm.rmrg.avilh_(ozbvi.yrzh)&#10;&#10;xozhh IOZtvmg:&#10;    wvu __rmrg__(hvou, vme, oi=6v-4, tznnz=9.02):&#10;        hvou.klorxb = KlorxbMvgdlip(vme.lyhviezgrlm_hkzxv.hszkv[9])&#10;        # ...保持其他初始化代码不变...&#10;```&#10;&#10;需要查看完整环境实现（nlwvo.kb）来确认城市数量和相关接口，请将相关文件添加到工作集。主要修改思路：&#10;8. 使用NlwfovOrhg为每个城市创建独立子网络&#10;7. 通过权重初始化实现零初始策略&#10;6. 保持输出层共享和标准化&#10;5. 需要调整ulidziw逻辑处理各城市独立输入" />
+                <option name="chatResource" value="user" />
+                <option name="codeReferences">
+                  <list>
+                    <CodeReferencesBean>
+                      <option name="content" value="            mm.Ormvzi(rmkfg_wrn, 743),&#10;            mm.OvzpbIvOF(9.7),&#10;            mm.OzbviMlin(743),&#10;            mm.Ormvzi(743, 871),&#10;            mm.OvzpbIvOF(9.7),&#10;            mm.OzbviMlin(871),&#10;        )&#10;        hvou.nf_svzw = mm.Hvjfvmgrzo(&#10;            mm.Ormvzi(871, 35),&#10;            mm.Gzms(),&#10;            mm.Ormvzi(35, 6),&#10;            mm.Hrtnlrw()&#10;        )&#10;        hvou.olt_hgw_svzw = mm.Kziznvgvi(glixs.avilh(6))&#10;&#10;    wvu ulidziw(hvou, c):&#10;        uvzgfivh = hvou.uvzgfiv_mvg(c)&#10;        nf = hvou.nf_svzw(uvzgfivh)&#10;        hgw = glixs.vck(hvou.olt_hgw_svzw)&#10;        ivgfim glixs.wrhgiryfgrlmh.Mlinzo(nf, hgw)&#10;&#10;&#10;# 改进的强化学习智能体&#10;xozhh IOZtvmg:&#10;    wvu __rmrg__(hvou, vme, oi=6v-4, tznnz=9.02):&#10;" />
+                      <option name="end_line" value="147" />
+                      <option name="filename" value="RL.py" />
+                      <option name="language" value="Python" />
+                      <option name="range">
+                        <Range>
+                          <option name="end">
+                            <Position>
+                              <option name="line" value="147" />
+                            </Position>
+                          </option>
+                          <option name="start">
+                            <Position>
+                              <option name="line" value="122" />
+                            </Position>
+                          </option>
+                        </Range>
+                      </option>
+                      <option name="start_line" value="122" />
+                      <option name="type" value="editor" />
+                      <option name="url" value="file:///E:/pythonProject/tjjm2025/RL.py" />
+                    </CodeReferencesBean>
+                  </list>
+                </option>
+                <option name="codebaseContextVariableValues">
+                  <list>
+                    <CodebaseContextVariableValue>
+                      <option name="chunk" value=".idea\workspace.xml:     &lt;option name=&quot;hideEmptyMiddlePackages&quot; value=&quot;true&quot; /&gt;&#10;    &lt;option name=&quot;showLibraryContents&quot; value=&quot;true&quot; /&gt;&#10;  &lt;/component&gt;&#10;  &lt;component name=&quot;PropertiesComponent&quot;&gt;&lt;![CDATA[{&#10;  &quot;keyToString&quot;: {&#10;    &quot;Python.DQN.executor&quot;: &quot;Run&quot;,&#10;    &quot;Python.RL.executor&quot;: &quot;Run&quot;,&#10;    &quot;Python.RL_AN.executor&quot;: &quot;Run&quot;,&#10;    &quot;Python.model.executor&quot;: &quot;Run&quot;,&#10;    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,&#10;    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;&#10;  }&#10;}]]&gt;&lt;/component&gt;&#10;  &lt;component name=&quot;SharedIndexes&quot;&gt;&#10;    &lt;attachedChunks&gt;&#10;      &lt;set&gt;&#10;        &lt;option value=&quot;bundled-python-sdk-50da183f06c8-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.13135.95&quot; /&gt;&#10;      &lt;/set&gt;&#10;    &lt;/attachedChunks&gt;&#10;  &lt;/component&gt;&#10;  &lt;component name=&quot;SpellCheckerSettings&quot; RuntimeDictionaries=&quot;0&quot; Folders=&quot;0&quot; CustomDictionaries=&quot;0&quot; DefaultDictionary=&quot;应用程序级&quot; UseSingleDictionary=&quot;true&quot; transferred=&quot;true&quot; /&gt;&#10;  &lt;component name=&quot;TaskManager&quot;&gt;&#10;    &lt;task active=&quot;true&quot; id=&quot;Default&quot; summary=&quot;默认任务&quot;&gt;" />
+                      <option name="filePath" value="$PROJECT_DIR$/.idea/workspace.xml" />
+                      <option name="range">
+                        <Range>
+                          <option name="endColumn" value="1" />
+                          <option name="endLine" value="47" />
+                          <option name="startColumn" value="1" />
+                          <option name="startLine" value="25" />
+                        </Range>
+                      </option>
+                      <option name="relativePath" value=".idea\workspace.xml" />
+                    </CodebaseContextVariableValue>
+                    <CodebaseContextVariableValue>
+                      <option name="chunk" value="DQN.py:         nn.utils.clip_grad_norm_(self.policy.parameters(), 5.0)&#10;        self.optimizer.step()&#10;        self.scheduler.step()&#10;        del self.rewards[:]&#10;        del self.saved_log_probs[:]&#10;        del self.saved_entropies[:]&#10;# 训练函数修改&#10;def train_with_seeds(seeds=[42, 123, 999]):&#10;    all_rewards = []&#10;    policy_variations = []&#10;    for seed in seeds:&#10;        # 初始化设置...&#10;        for ep in range(episodes):&#10;            # 训练循环...&#10;            # 每50轮记录策略变化&#10;            if ep % 50 == 0:&#10;                with torch.no_grad():&#10;                    state = env.reset()&#10;                    action = agent.select_action(state, ep)&#10;                    policy_variations.append(action.copy())&#10;        all_rewards.append(episode_rewards)&#10;    # 新增策略变化可视化&#10;    plt.figure(figsize=(12, 6))&#10;    plt.imshow(np.array(policy_variations).T, aspect='auto', cmap='viridis')&#10;    plt.colorbar(label='Policy Intensity')&#10;    plt.title('Policy Variation Across Training')&#10;    plt.xlabel('Training Checkpoints')&#10;    plt.ylabel('Action Dimensions')" />
+                      <option name="filePath" value="$PROJECT_DIR$/DQN.py" />
+                      <option name="range">
+                        <Range>
+                          <option name="endColumn" value="1" />
+                          <option name="endLine" value="157" />
+                          <option name="startColumn" value="1" />
+                          <option name="startLine" value="122" />
+                        </Range>
+                      </option>
+                      <option name="relativePath" value="DQN.py" />
+                    </CodebaseContextVariableValue>
+                    <CodebaseContextVariableValue>
+                      <option name="chunk" value="DQN.py:     state = torch.FloatTensor(state).unsqueeze(0)&#10;    dist = self.policy(state, explore=True)&#10;    action = dist.sample()&#10;    self.saved_log_probs.append(dist.log_prob(action).sum())&#10;    self.saved_entropies.append(dist.entropy().mean())&#10;    return action.squeeze(0).detach().numpy()&#10;def update_policy(self):&#10;    R = 0&#10;    returns = []&#10;    for r in reversed(self.rewards):&#10;        R = r + self.gamma * R&#10;        returns.insert(0, R)&#10;    returns = torch.tensor(returns)&#10;    returns = (returns - returns.mean()) / (returns.std() + 1e-5)&#10;    policy_loss = []&#10;    for log_prob, entropy, R in zip(self.saved_log_probs, self.saved_entropies, returns):&#10;        policy_loss.append(-log_prob * R - self.entropy_coef * entropy)&#10;    self.optimizer.zero_grad()&#10;    policy_loss = torch.stack(policy_loss).sum()&#10;    policy_loss.backward()" />
+                      <option name="filePath" value="$PROJECT_DIR$/DQN.py" />
+                      <option name="range">
+                        <Range>
+                          <option name="endColumn" value="1" />
+                          <option name="endLine" value="121" />
+                          <option name="startColumn" value="1" />
+                          <option name="startLine" value="98" />
+                        </Range>
+                      </option>
+                      <option name="relativePath" value="DQN.py" />
+                    </CodebaseContextVariableValue>
+                    <CodebaseContextVariableValue>
+                      <option name="chunk" value="DQN.py: # 绘制带置信区间的曲线&#10;ax = fig.add_subplot(gs[0, :])&#10;weeks = np.arange(len(infection_records[0]))&#10;for i in range(env.num_cities):&#10;    mean = np.mean(infection_records[i], axis=0)&#10;    std = np.std(infection_records[i], axis=0)&#10;    ax.plot(weeks, mean, label=env.cities[i].name)&#10;    ax.fill_between(weeks, mean - std, mean + std, alpha=0.2)&#10;ax.set_title(f'Initial Condition {cond + 1} - Infection Trends')&#10;ax.legend()&#10;# 新增策略分布可视化&#10;ax = fig.add_subplot(gs[3, :])&#10;actions = np.array(action_records)&#10;for i in range(env.num_cities * 3):&#10;    ax.boxplot(actions[:, :, i].T, positions=[i], widths=0.6)&#10;ax.set_xticks(range(env.num_cities * 3))" />
+                      <option name="filePath" value="$PROJECT_DIR$/DQN.py" />
+                      <option name="range">
+                        <Range>
+                          <option name="endColumn" value="1" />
+                          <option name="endLine" value="209" />
+                          <option name="startColumn" value="1" />
+                          <option name="startLine" value="193" />
+                        </Range>
+                      </option>
+                      <option name="relativePath" value="DQN.py" />
+                    </CodebaseContextVariableValue>
+                    <CodebaseContextVariableValue>
+                      <option name="chunk" value="RL_AN.py:         ax4.set_yticklabels([f'{c.name}\n{p}'&#10;                             for c in env.cities&#10;                             for p in ['Mask', 'Home', 'Med']])&#10;        ax4.set_title('Policy Intensity Evolution')&#10;        ax4.set_xlabel('Weeks')&#10;        plt.tight_layout()&#10;        plt.show()&#10;# 初始化环境和训练&#10;env = SEIREnv(cities_config, migration_matrix)&#10;trained_agent = train_with_seeds()&#10;visualize_policy(trained_agent)" />
+                      <option name="filePath" value="$PROJECT_DIR$/RL_AN.py" />
+                      <option name="range">
+                        <Range>
+                          <option name="endColumn" value="1" />
+                          <option name="endLine" value="391" />
+                          <option name="startColumn" value="1" />
+                          <option name="startLine" value="378" />
+                        </Range>
+                      </option>
+                      <option name="relativePath" value="RL_AN.py" />
+                    </CodebaseContextVariableValue>
+                    <CodebaseContextVariableValue>
+                      <option name="chunk" value="RL_AN.py:     ax2.plot(np.array(records['economy'][i]) / city.economy_base,&#10;             label=f'{city.name}')&#10;ax2.set_title('Normalized Economic Loss')&#10;ax2.legend()&#10;# 分城市策略&#10;for i, city in enumerate(env.cities):&#10;    ax = plt.subplot(gs[2, i])&#10;    for j in range(3):&#10;        ax.plot(actions_array[:, i, j],  # 使用 actions_array&#10;                label=['Mask Policy', 'Home Policy', 'Medical Policy'][j])&#10;    ax.set_title(f'{city.name} Policies')&#10;    ax.set_ylim(0, 1)&#10;    if i == 0:&#10;        ax.legend()&#10;# 策略热力图&#10;ax4 = plt.subplot(gs[3, :])&#10;im = ax4.imshow(actions_array.transpose(1, 0, 2).reshape(-1, actions_array.shape[0]),&#10;                aspect='auto', cmap='YlGnBu')&#10;plt.colorbar(im, ax=ax4)&#10;ax4.set_yticks(np.arange(len(env.cities) * 3))" />
+                      <option name="filePath" value="$PROJECT_DIR$/RL_AN.py" />
+                      <option name="range">
+                        <Range>
+                          <option name="endColumn" value="1" />
+                          <option name="endLine" value="377" />
+                          <option name="startColumn" value="1" />
+                          <option name="startLine" value="356" />
+                        </Range>
+                      </option>
+                      <option name="relativePath" value="RL_AN.py" />
+                    </CodebaseContextVariableValue>
+                    <CodebaseContextVariableValue>
+                      <option name="chunk" value="RL.py:         self.saved_log_probs.append(dist.log_prob(action).sum())&#10;        return action.detach().numpy()&#10;    def update_policy(self):&#10;        returns = []&#10;        R = 0&#10;        for r in reversed(self.rewards):&#10;            R = r + self.gamma * R&#10;            returns.insert(0, R)&#10;        returns = torch.tensor(returns)&#10;        returns = (returns - returns.mean()) / (returns.std() + 1e-5)&#10;        policy_loss = []&#10;        for log_prob, R in zip(self.saved_log_probs, returns):&#10;            policy_loss.append(-log_prob * R)&#10;        self.optimizer.zero_grad()&#10;        policy_loss = torch.stack(policy_loss).sum()&#10;        policy_loss.backward()&#10;        nn.utils.clip_grad_norm_(self.policy.parameters(), 1.0)&#10;        self.optimizer.step()&#10;        self.scheduler.step()&#10;        del self.rewards[:]&#10;        del self.saved_log_probs[:]&#10;# 确保 cities_config 是一个有效的列表&#10;cities_config = [&#10;    {&#10;        'name': &quot;平原城市&quot;," />
+                      <option name="filePath" value="$PROJECT_DIR$/RL.py" />
+                      <option name="range">
+                        <Range>
+                          <option name="endColumn" value="1" />
+                          <option name="endLine" value="192" />
+                          <option name="startColumn" value="1" />
+                          <option name="startLine" value="161" />
+                        </Range>
+                      </option>
+                      <option name="relativePath" value="RL.py" />
+                    </CodebaseContextVariableValue>
+                    <CodebaseContextVariableValue>
+                      <option name="chunk" value="DQN.py: ax.set_xticklabels([f'City {i // 3 + 1} - {&quot;Mask&quot;, &quot;Home&quot;, &quot;Med&quot;][i % 3]' for i in range(env.num_cities*3)])&#10;ax.set_title('Policy Parameter Distributions')&#10;ax.set_ylim(0, 1)&#10;plt.tight_layout()&#10;plt.show()" />
+                      <option name="filePath" value="$PROJECT_DIR$/DQN.py" />
+                      <option name="range">
+                        <Range>
+                          <option name="endColumn" value="1" />
+                          <option name="endLine" value="215" />
+                          <option name="startColumn" value="1" />
+                          <option name="startLine" value="210" />
+                        </Range>
+                      </option>
+                      <option name="relativePath" value="DQN.py" />
+                    </CodebaseContextVariableValue>
+                    <CodebaseContextVariableValue>
+                      <option name="chunk" value="RL_AN.py:         return action.squeeze(0).detach().numpy()&#10;    def update_policy(self):&#10;        R = 0&#10;        returns = []&#10;        for r in reversed(self.rewards):&#10;            R = r + self.gamma * R&#10;            returns.insert(0, R)&#10;        returns = torch.tensor(returns)&#10;        returns = (returns - returns.mean()) / (returns.std() + 1e-5)&#10;        policy_loss = []&#10;        for log_prob, R in zip(self.saved_log_probs, returns):&#10;            policy_loss.append(-log_prob * R)&#10;        self.optimizer.zero_grad()&#10;        policy_loss = torch.stack(policy_loss).sum()&#10;        policy_loss.backward()&#10;        nn.utils.clip_grad_norm_(self.policy.parameters(), 1.0)&#10;        self.optimizer.step()&#10;        self.scheduler.step()&#10;        del self.rewards[:]&#10;        del self.saved_log_probs[:]&#10;# 城市配置（保持相同）&#10;# 确保 cities_config 是一个有效的列表&#10;cities_config = [&#10;    {&#10;        'name': &quot;平原城市&quot;," />
+                      <option name="filePath" value="$PROJECT_DIR$/RL_AN.py" />
+                      <option name="range">
+                        <Range>
+                          <option name="endColumn" value="1" />
+                          <option name="endLine" value="218" />
+                          <option name="startColumn" value="1" />
+                          <option name="startLine" value="187" />
+                        </Range>
+                      </option>
+                      <option name="relativePath" value="RL_AN.py" />
+                    </CodebaseContextVariableValue>
+                  </list>
+                </option>
+                <option name="codebaseReferences">
+                  <list>
+                    <KnowledgeReference>
+                      <option name="chunk" value=".idea\workspace.xml:     &lt;option name=&quot;hideEmptyMiddlePackages&quot; value=&quot;true&quot; /&gt;&#10;    &lt;option name=&quot;showLibraryContents&quot; value=&quot;true&quot; /&gt;&#10;  &lt;/component&gt;&#10;  &lt;component name=&quot;PropertiesComponent&quot;&gt;&lt;![CDATA[{&#10;  &quot;keyToString&quot;: {&#10;    &quot;Python.DQN.executor&quot;: &quot;Run&quot;,&#10;    &quot;Python.RL.executor&quot;: &quot;Run&quot;,&#10;    &quot;Python.RL_AN.executor&quot;: &quot;Run&quot;,&#10;    &quot;Python.model.executor&quot;: &quot;Run&quot;,&#10;    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,&#10;    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;&#10;  }&#10;}]]&gt;&lt;/component&gt;&#10;  &lt;component name=&quot;SharedIndexes&quot;&gt;&#10;    &lt;attachedChunks&gt;&#10;      &lt;set&gt;&#10;        &lt;option value=&quot;bundled-python-sdk-50da183f06c8-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.13135.95&quot; /&gt;&#10;      &lt;/set&gt;&#10;    &lt;/attachedChunks&gt;&#10;  &lt;/component&gt;&#10;  &lt;component name=&quot;SpellCheckerSettings&quot; RuntimeDictionaries=&quot;0&quot; Folders=&quot;0&quot; CustomDictionaries=&quot;0&quot; DefaultDictionary=&quot;应用程序级&quot; UseSingleDictionary=&quot;true&quot; transferred=&quot;true&quot; /&gt;&#10;  &lt;component name=&quot;TaskManager&quot;&gt;&#10;    &lt;task active=&quot;true&quot; id=&quot;Default&quot; summary=&quot;默认任务&quot;&gt;" />
+                      <option name="metadata">
+                        <KnowledgeReferenceMetadata>
+                          <option name="source" value="$PROJECT_DIR$/.idea/workspace.xml" />
+                        </KnowledgeReferenceMetadata>
+                      </option>
+                    </KnowledgeReference>
+                    <KnowledgeReference>
+                      <option name="chunk" value="DQN.py:         nn.utils.clip_grad_norm_(self.policy.parameters(), 5.0)&#10;        self.optimizer.step()&#10;        self.scheduler.step()&#10;        del self.rewards[:]&#10;        del self.saved_log_probs[:]&#10;        del self.saved_entropies[:]&#10;# 训练函数修改&#10;def train_with_seeds(seeds=[42, 123, 999]):&#10;    all_rewards = []&#10;    policy_variations = []&#10;    for seed in seeds:&#10;        # 初始化设置...&#10;        for ep in range(episodes):&#10;            # 训练循环...&#10;            # 每50轮记录策略变化&#10;            if ep % 50 == 0:&#10;                with torch.no_grad():&#10;                    state = env.reset()&#10;                    action = agent.select_action(state, ep)&#10;                    policy_variations.append(action.copy())&#10;        all_rewards.append(episode_rewards)&#10;    # 新增策略变化可视化&#10;    plt.figure(figsize=(12, 6))&#10;    plt.imshow(np.array(policy_variations).T, aspect='auto', cmap='viridis')&#10;    plt.colorbar(label='Policy Intensity')&#10;    plt.title('Policy Variation Across Training')&#10;    plt.xlabel('Training Checkpoints')&#10;    plt.ylabel('Action Dimensions')" />
+                      <option name="metadata">
+                        <KnowledgeReferenceMetadata>
+                          <option name="source" value="$PROJECT_DIR$/DQN.py" />
+                        </KnowledgeReferenceMetadata>
+                      </option>
+                    </KnowledgeReference>
+                    <KnowledgeReference>
+                      <option name="chunk" value="DQN.py:     state = torch.FloatTensor(state).unsqueeze(0)&#10;    dist = self.policy(state, explore=True)&#10;    action = dist.sample()&#10;    self.saved_log_probs.append(dist.log_prob(action).sum())&#10;    self.saved_entropies.append(dist.entropy().mean())&#10;    return action.squeeze(0).detach().numpy()&#10;def update_policy(self):&#10;    R = 0&#10;    returns = []&#10;    for r in reversed(self.rewards):&#10;        R = r + self.gamma * R&#10;        returns.insert(0, R)&#10;    returns = torch.tensor(returns)&#10;    returns = (returns - returns.mean()) / (returns.std() + 1e-5)&#10;    policy_loss = []&#10;    for log_prob, entropy, R in zip(self.saved_log_probs, self.saved_entropies, returns):&#10;        policy_loss.append(-log_prob * R - self.entropy_coef * entropy)&#10;    self.optimizer.zero_grad()&#10;    policy_loss = torch.stack(policy_loss).sum()&#10;    policy_loss.backward()" />
+                      <option name="metadata">
+                        <KnowledgeReferenceMetadata>
+                          <option name="source" value="$PROJECT_DIR$/DQN.py" />
+                        </KnowledgeReferenceMetadata>
+                      </option>
+                    </KnowledgeReference>
+                    <KnowledgeReference>
+                      <option name="chunk" value="DQN.py: # 绘制带置信区间的曲线&#10;ax = fig.add_subplot(gs[0, :])&#10;weeks = np.arange(len(infection_records[0]))&#10;for i in range(env.num_cities):&#10;    mean = np.mean(infection_records[i], axis=0)&#10;    std = np.std(infection_records[i], axis=0)&#10;    ax.plot(weeks, mean, label=env.cities[i].name)&#10;    ax.fill_between(weeks, mean - std, mean + std, alpha=0.2)&#10;ax.set_title(f'Initial Condition {cond + 1} - Infection Trends')&#10;ax.legend()&#10;# 新增策略分布可视化&#10;ax = fig.add_subplot(gs[3, :])&#10;actions = np.array(action_records)&#10;for i in range(env.num_cities * 3):&#10;    ax.boxplot(actions[:, :, i].T, positions=[i], widths=0.6)&#10;ax.set_xticks(range(env.num_cities * 3))" />
+                      <option name="metadata">
+                        <KnowledgeReferenceMetadata>
+                          <option name="source" value="$PROJECT_DIR$/DQN.py" />
+                        </KnowledgeReferenceMetadata>
+                      </option>
+                    </KnowledgeReference>
+                    <KnowledgeReference>
+                      <option name="chunk" value="RL_AN.py:         ax4.set_yticklabels([f'{c.name}\n{p}'&#10;                             for c in env.cities&#10;                             for p in ['Mask', 'Home', 'Med']])&#10;        ax4.set_title('Policy Intensity Evolution')&#10;        ax4.set_xlabel('Weeks')&#10;        plt.tight_layout()&#10;        plt.show()&#10;# 初始化环境和训练&#10;env = SEIREnv(cities_config, migration_matrix)&#10;trained_agent = train_with_seeds()&#10;visualize_policy(trained_agent)" />
+                      <option name="metadata">
+                        <KnowledgeReferenceMetadata>
+                          <option name="source" value="$PROJECT_DIR$/RL_AN.py" />
+                        </KnowledgeReferenceMetadata>
+                      </option>
+                    </KnowledgeReference>
+                    <KnowledgeReference>
+                      <option name="chunk" value="RL_AN.py:     ax2.plot(np.array(records['economy'][i]) / city.economy_base,&#10;             label=f'{city.name}')&#10;ax2.set_title('Normalized Economic Loss')&#10;ax2.legend()&#10;# 分城市策略&#10;for i, city in enumerate(env.cities):&#10;    ax = plt.subplot(gs[2, i])&#10;    for j in range(3):&#10;        ax.plot(actions_array[:, i, j],  # 使用 actions_array&#10;                label=['Mask Policy', 'Home Policy', 'Medical Policy'][j])&#10;    ax.set_title(f'{city.name} Policies')&#10;    ax.set_ylim(0, 1)&#10;    if i == 0:&#10;        ax.legend()&#10;# 策略热力图&#10;ax4 = plt.subplot(gs[3, :])&#10;im = ax4.imshow(actions_array.transpose(1, 0, 2).reshape(-1, actions_array.shape[0]),&#10;                aspect='auto', cmap='YlGnBu')&#10;plt.colorbar(im, ax=ax4)&#10;ax4.set_yticks(np.arange(len(env.cities) * 3))" />
+                      <option name="metadata">
+                        <KnowledgeReferenceMetadata>
+                          <option name="source" value="$PROJECT_DIR$/RL_AN.py" />
+                        </KnowledgeReferenceMetadata>
+                      </option>
+                    </KnowledgeReference>
+                    <KnowledgeReference>
+                      <option name="chunk" value="RL.py:         self.saved_log_probs.append(dist.log_prob(action).sum())&#10;        return action.detach().numpy()&#10;    def update_policy(self):&#10;        returns = []&#10;        R = 0&#10;        for r in reversed(self.rewards):&#10;            R = r + self.gamma * R&#10;            returns.insert(0, R)&#10;        returns = torch.tensor(returns)&#10;        returns = (returns - returns.mean()) / (returns.std() + 1e-5)&#10;        policy_loss = []&#10;        for log_prob, R in zip(self.saved_log_probs, returns):&#10;            policy_loss.append(-log_prob * R)&#10;        self.optimizer.zero_grad()&#10;        policy_loss = torch.stack(policy_loss).sum()&#10;        policy_loss.backward()&#10;        nn.utils.clip_grad_norm_(self.policy.parameters(), 1.0)&#10;        self.optimizer.step()&#10;        self.scheduler.step()&#10;        del self.rewards[:]&#10;        del self.saved_log_probs[:]&#10;# 确保 cities_config 是一个有效的列表&#10;cities_config = [&#10;    {&#10;        'name': &quot;平原城市&quot;," />
+                      <option name="metadata">
+                        <KnowledgeReferenceMetadata>
+                          <option name="source" value="$PROJECT_DIR$/RL.py" />
+                        </KnowledgeReferenceMetadata>
+                      </option>
+                    </KnowledgeReference>
+                    <KnowledgeReference>
+                      <option name="chunk" value="DQN.py: ax.set_xticklabels([f'City {i // 3 + 1} - {&quot;Mask&quot;, &quot;Home&quot;, &quot;Med&quot;][i % 3]' for i in range(env.num_cities*3)])&#10;ax.set_title('Policy Parameter Distributions')&#10;ax.set_ylim(0, 1)&#10;plt.tight_layout()&#10;plt.show()" />
+                      <option name="metadata">
+                        <KnowledgeReferenceMetadata>
+                          <option name="source" value="$PROJECT_DIR$/DQN.py" />
+                        </KnowledgeReferenceMetadata>
+                      </option>
+                    </KnowledgeReference>
+                    <KnowledgeReference>
+                      <option name="chunk" value="RL_AN.py:         return action.squeeze(0).detach().numpy()&#10;    def update_policy(self):&#10;        R = 0&#10;        returns = []&#10;        for r in reversed(self.rewards):&#10;            R = r + self.gamma * R&#10;            returns.insert(0, R)&#10;        returns = torch.tensor(returns)&#10;        returns = (returns - returns.mean()) / (returns.std() + 1e-5)&#10;        policy_loss = []&#10;        for log_prob, R in zip(self.saved_log_probs, returns):&#10;            policy_loss.append(-log_prob * R)&#10;        self.optimizer.zero_grad()&#10;        policy_loss = torch.stack(policy_loss).sum()&#10;        policy_loss.backward()&#10;        nn.utils.clip_grad_norm_(self.policy.parameters(), 1.0)&#10;        self.optimizer.step()&#10;        self.scheduler.step()&#10;        del self.rewards[:]&#10;        del self.saved_log_probs[:]&#10;# 城市配置（保持相同）&#10;# 确保 cities_config 是一个有效的列表&#10;cities_config = [&#10;    {&#10;        'name': &quot;平原城市&quot;," />
+                      <option name="metadata">
+                        <KnowledgeReferenceMetadata>
+                          <option name="source" value="$PROJECT_DIR$/RL_AN.py" />
+                        </KnowledgeReferenceMetadata>
+                      </option>
+                    </KnowledgeReference>
+                  </list>
+                </option>
+                <option name="command" value="" />
+                <option name="conversationId" value="0195a7a0022d70b88e4e995cd166e75f" />
+                <option name="historyDocumentMap">
+                  <map>
+                    <entry key="file:///E:/pythonProject/tjjm2025/RL.py" value="import numpy as np&#10;import random&#10;from collections import deque&#10;import torch&#10;import torch.nn as nn&#10;import torch.optim as optim&#10;import matplotlib.pyplot as plt&#10;from model import City, calculate_economic_loss, do_migration&#10;&#10;&#10;# 强化学习环境类&#10;class SEIREnv:&#10;    def __init__(self, cities_config, migration_matrix, time_window=5, max_weeks=52):&#10;        self.time_window = time_window&#10;        self.max_weeks = max_weeks&#10;        self.current_week = 0&#10;        self.cities_config = cities_config&#10;        self.migration_matrix = migration_matrix&#10;        self.ema_alpha = 0.1&#10;        self.reset()&#10;&#10;    def _create_cities(self):&#10;        &quot;&quot;&quot;创建带随机初始化的城市&quot;&quot;&quot;&#10;        cities = []&#10;        for config in self.cities_config:&#10;            city_config = config.copy()&#10;            # 参数随机化&#10;            for param in ['beta_day', 'gamma_day', 'sigma_day']:&#10;                if isinstance(city_config[param], (tuple, list)):&#10;                    city_config[param] = np.random.uniform(*city_config[param])&#10;            # 初始感染人数随机化&#10;            city_config['I0'] = np.random.randint(50, 200)&#10;            cities.append(City(**city_config))&#10;        return cities&#10;&#10;    def reset(self):&#10;        &quot;&quot;&quot;完全重置环境&quot;&quot;&quot;&#10;        self.current_week = 0&#10;        self.cities = self._create_cities()&#10;        self.init_history()&#10;        self.last_action = np.zeros(3)&#10;        self.ema_action = np.zeros(3)&#10;        return self.get_state()&#10;&#10;    def init_history(self):&#10;        self.I_history = {city.name: deque(maxlen=self.time_window) for city in self.cities}&#10;        self.economy_history = {city.name: deque(maxlen=self.time_window) for city in self.cities}&#10;        for city in self.cities:&#10;            for _ in range(self.time_window):&#10;                self.I_history[city.name].append(city.I)&#10;                self.economy_history[city.name].append(0)&#10;&#10;    def get_state(self):&#10;        state_features = []&#10;        total_pop = sum(c.total_population() for c in self.cities)&#10;        for city in self.cities:&#10;            infected = np.array(self.I_history[city.name]) / city.total_population()&#10;            economy = np.array(list(self.economy_history[city.name])) / city.economy_base&#10;            features = [&#10;                *infected.tolist(),&#10;                *economy.tolist(),&#10;                city.type / 3.0,&#10;                self.last_action[0],&#10;                self.last_action[1],&#10;                self.last_action[2]&#10;            ]&#10;            state_features.extend(features)&#10;        return np.array(state_features, dtype=np.float32)&#10;&#10;    def step(self, action):&#10;        # 带惯性的动作更新&#10;        smoothed_action = 0.6 * self.last_action + 0.4 * np.clip(action, 0, 1)&#10;        self.last_action = smoothed_action&#10;        self.ema_action = (1 - self.ema_alpha) * self.ema_action + self.ema_alpha * smoothed_action&#10;&#10;        params = {'mask': smoothed_action[0],&#10;                  'home': smoothed_action[1],&#10;                  'med': smoothed_action[2]}&#10;&#10;        total_reward = 0&#10;        weekly_infections = 0&#10;        weekly_economy = 0&#10;&#10;        # 模拟一周发展&#10;        for day in range(7):&#10;            for city in self.cities:&#10;                city.update(params)&#10;                loss = calculate_economic_loss(city, **params)&#10;                self.economy_history[city.name].append(loss)&#10;                weekly_economy += loss&#10;                weekly_infections += city.I&#10;&#10;            # 更新感染历史&#10;            for city in self.cities:&#10;                self.I_history[city.name].append(city.I)&#10;&#10;        # 人口迁移&#10;        total_infected = sum(c.I for c in self.cities)&#10;        alpha = 0.6 if total_infected &gt; 50000 else 0.0&#10;        do_migration(self.cities, self.migration_matrix, alpha, self.current_week)&#10;&#10;        # 重新设计的奖励函数&#10;        infection_ratio = total_infected / sum(c.total_population() for c in self.cities)&#10;        economy_ratio = weekly_economy / sum(c.economy_base for c in self.cities)&#10;&#10;        reward = (&#10;                - 10 * infection_ratio  # 感染惩罚项&#10;                - 5 * economy_ratio  # 经济惩罚项&#10;                - 0.1 * np.sum(self.ema_action)  # 干预强度惩罚&#10;        )&#10;&#10;        self.current_week += 1&#10;        done = self.current_week &gt;= self.max_weeks&#10;&#10;        return self.get_state(), reward, done, {}&#10;&#10;&#10;# 增强的策略网络&#10;class PolicyNetwork(nn.Module):&#10;    def __init__(self, input_dim):&#10;        super().__init__()&#10;        self.feature_net = nn.Sequential(&#10;            nn.Linear(input_dim, 256),&#10;            nn.LeakyReLU(0.2),&#10;            nn.LayerNorm(256),&#10;            nn.Linear(256, 128),&#10;            nn.LeakyReLU(0.2),&#10;            nn.LayerNorm(128),&#10;        )&#10;        self.mu_head = nn.Sequential(&#10;            nn.Linear(128, 64),&#10;            nn.Tanh(),&#10;            nn.Linear(64, 3),&#10;            nn.Sigmoid()&#10;        )&#10;        self.log_std_head = nn.Parameter(torch.zeros(3))&#10;&#10;    def forward(self, x):&#10;        features = self.feature_net(x)&#10;        mu = self.mu_head(features)&#10;        std = torch.exp(self.log_std_head)&#10;        return torch.distributions.Normal(mu, std)&#10;&#10;&#10;# 改进的强化学习智能体&#10;class RLAgent:&#10;    def __init__(self, env, lr=3e-5, gamma=0.97):&#10;        self.env = env&#10;        self.gamma = gamma&#10;        state_dim = len(env.get_state())&#10;        self.policy = PolicyNetwork(state_dim)&#10;        self.optimizer = optim.AdamW(self.policy.parameters(), lr=lr)&#10;        self.scheduler = optim.lr_scheduler.StepLR(self.optimizer, step_size=100, gamma=0.9)&#10;        self.saved_log_probs = []&#10;        self.rewards = []&#10;&#10;    def select_action(self, state, explore=True):&#10;        state = torch.FloatTensor(state)&#10;        dist = self.policy(state)&#10;        action = dist.sample() if explore else dist.mean&#10;        self.saved_log_probs.append(dist.log_prob(action).sum())&#10;        return action.detach().numpy()&#10;&#10;    def update_policy(self):&#10;        returns = []&#10;        R = 0&#10;        for r in reversed(self.rewards):&#10;            R = r + self.gamma * R&#10;            returns.insert(0, R)&#10;&#10;        returns = torch.tensor(returns)&#10;        returns = (returns - returns.mean()) / (returns.std() + 1e-5)&#10;&#10;        policy_loss = []&#10;        for log_prob, R in zip(self.saved_log_probs, returns):&#10;            policy_loss.append(-log_prob * R)&#10;&#10;        self.optimizer.zero_grad()&#10;        policy_loss = torch.stack(policy_loss).sum()&#10;        policy_loss.backward()&#10;        nn.utils.clip_grad_norm_(self.policy.parameters(), 1.0)&#10;        self.optimizer.step()&#10;        self.scheduler.step()&#10;&#10;        del self.rewards[:]&#10;        del self.saved_log_probs[:]&#10;&#10;&#10;# 确保 cities_config 是一个有效的列表&#10;cities_config = [&#10;    {&#10;        'name': &quot;平原城市&quot;,&#10;        'S0': 999800, 'E0': 150, 'I0': 50, 'R0': 0,&#10;        'beta_day': (0.18, 0.22),&#10;        'gamma_day': (0.08, 0.12),&#10;        'sigma_day': (0.45, 0.55),&#10;        'city_type': 1,&#10;        'economy_base': 1e5&#10;    },&#10;    {&#10;        'name': &quot;丘陵城市&quot;,&#10;        'S0': 799900, 'E0': 80, 'I0': 20, 'R0': 0,&#10;        'beta_day': (0.16, 0.20),&#10;        'gamma_day': (0.10, 0.14),&#10;        'sigma_day': (0.35, 0.45),&#10;        'city_type': 2,&#10;        'economy_base': 8e4&#10;    },&#10;    {&#10;        'name': &quot;高原城市&quot;,&#10;        'S0': 499900, 'E0': 50, 'I0': 50, 'R0': 0,&#10;        'beta_day': (0.22, 0.28),&#10;        'gamma_day': (0.06, 0.10),&#10;        'sigma_day': (0.25, 0.35),&#10;        'city_type': 3,&#10;        'economy_base': 5e4&#10;    }&#10;]&#10;&#10;# 确保 migration_matrix 是一个有效的 NumPy 数组&#10;migration_matrix = np.array([&#10;    [0.00, 0.05, 0.02],&#10;    [0.04, 0.00, 0.03],&#10;    [0.01, 0.06, 0.00],&#10;])&#10;&#10;# 初始化环境&#10;env = SEIREnv(cities_config, migration_matrix)&#10;&#10;# 训练参数&#10;episodes = 800&#10;print_interval = 50&#10;&#10;&#10;# 训练过程（带多个随机种子）&#10;def train_with_seeds(seeds=[42, 123, 999]):&#10;    all_rewards = []&#10;&#10;    for seed in seeds:&#10;        torch.manual_seed(seed)&#10;        np.random.seed(seed)&#10;        random.seed(seed)&#10;&#10;        agent = RLAgent(env)&#10;        episode_rewards = []&#10;&#10;        for ep in range(episodes):&#10;            state = env.reset()&#10;            total_reward = 0&#10;            done = False&#10;&#10;            while not done:&#10;                action = agent.select_action(state)&#10;                next_state, reward, done, _ = env.step(action)&#10;                agent.rewards.append(reward)&#10;                total_reward += reward&#10;                state = next_state&#10;&#10;            agent.update_policy()&#10;            episode_rewards.append(total_reward)&#10;&#10;            if ep % print_interval == 0:&#10;                avg_reward = np.mean(episode_rewards[-print_interval:])&#10;                print(f&quot;Seed {seed} | Episode {ep:4d} | Avg Reward: {avg_reward:7.2f}&quot;)&#10;&#10;        all_rewards.append(episode_rewards)&#10;&#10;    # 绘制训练曲线&#10;    plt.figure(figsize=(10, 6))&#10;    for i, rewards in enumerate(all_rewards):&#10;        plt.plot(rewards, label=f'Seed {seeds[i]}')&#10;    plt.title('Training Progress with Different Seeds')&#10;    plt.xlabel('Episode')&#10;    plt.ylabel('Total Reward')&#10;    plt.legend()&#10;    plt.grid(True)&#10;    plt.show()&#10;&#10;    return agent&#10;&#10;&#10;# 运行多种子训练&#10;trained_agent = train_with_seeds()&#10;&#10;&#10;# 增强可视化函数&#10;def visualize_policy(agent, num_simulations=3):&#10;    plt.figure(figsize=(15, 18))&#10;&#10;    for sim in range(num_simulations):&#10;        # 运行模拟&#10;        state = env.reset()&#10;        done = False&#10;        records = {&#10;            'infections': [[] for _ in env.cities],&#10;            'economy': [[] for _ in env.cities],&#10;            'actions': []&#10;        }&#10;&#10;        while not done:&#10;            with torch.no_grad():&#10;                action = agent.policy(torch.FloatTensor(state)).mean.numpy()&#10;            records['actions'].append(action)&#10;&#10;            # 记录状态&#10;            for i, city in enumerate(env.cities):&#10;                records['infections'][i].append(city.I)&#10;                # 修复：将 deque 转换为列表后再切片&#10;                economy_history = list(env.economy_history[city.name])&#10;                records['economy'][i].append(sum(economy_history[-7:]))&#10;&#10;            state, _, done, _ = env.step(action)&#10;&#10;        # 绘制感染趋势&#10;        plt.subplot(num_simulations, 3, sim * 3 + 1)&#10;        for i, city in enumerate(env.cities):&#10;            plt.plot(records['infections'][i], label=city.name)&#10;        plt.title(f'Simulation {sim + 1} - Infections')&#10;        plt.xlabel('Week')&#10;        plt.ylabel('Infected')&#10;        plt.legend()&#10;&#10;        # 绘制经济损失&#10;        plt.subplot(num_simulations, 3, sim * 3 + 2)&#10;        for i, city in enumerate(env.cities):&#10;            normalized_loss = [x / city.economy_base for x in records['economy'][i]]&#10;            plt.plot(normalized_loss, label=city.name)&#10;        plt.title(f'Simulation {sim + 1} - Economic Loss')&#10;        plt.xlabel('Week')&#10;        plt.ylabel('Loss Ratio')&#10;        plt.legend()&#10;&#10;        # 绘制干预措施&#10;        plt.subplot(num_simulations, 3, sim * 3 + 3)&#10;        actions = np.array(records['actions'])&#10;        labels = ['Mask', 'Home', 'Medical']&#10;        for i in range(3):&#10;            plt.plot(actions[:, i], label=labels[i])&#10;        plt.title(f'Simulation {sim + 1} - Interventions')&#10;        plt.xlabel('Week')&#10;        plt.ylabel('Intensity')&#10;        plt.legend()&#10;&#10;    plt.tight_layout()&#10;    plt.show()&#10;&#10;&#10;# 运行可视化&#10;visualize_policy(trained_agent)" />
+                  </map>
+                </option>
+                <option name="messageId" value="0195a7a0022d7c6ba73bf93838ae3828" />
+                <option name="question" value="如何将现在的代码改为针对每个城市都有自己的策略，且初始策略都为9" />
+                <option name="rating" value="UNRATED" />
+                <option name="referenceBeans">
+                  <list />
+                </option>
+                <option name="status" value="SUCCESS" />
+                <option name="variables">
+                  <list />
+                </option>
+              </Turn>
+            </list>
+          </option>
+          <option name="updateTime" value="1742274067984" />
+        </Conversation>
+      </list>
+    </option>
+  </component>
+</project>
